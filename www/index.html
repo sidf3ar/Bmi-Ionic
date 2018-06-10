@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+</head>
+
+<body ng-app="starter">
+    <ion-pane>
+        <ion-header-bar class="bar-stable">
+            <h1 class="title">BMI Calculator</h1>
+        </ion-header-bar>
+        <ion-content>
+            <script>
+            function BMI() {
+
+                height = document.getElementById('height');
+                if (height.innerHTML == "m `")
+                    var m = document.getElementById("m").value;
+                else if (height.innerHTML == "cm`")
+                    var m = document.getElementById("m").value / 100;
+                else {
+                    var sp = document.getElementById("m").value.split("'");
+
+                    if (sp.length == 1) {
+                        sp = document.getElementById("m").value.split(".");
+                        var m = (sp.length == 1) ? document.getElementById("m").value : sp[0] * 0.3048 + sp[1] * 0.0254;
+                    } else
+                        var m = sp[0] * 0.3048 + sp[1] * 0.0254;
+                }
+
+                weight = document.getElementById('weight');
+                if (weight.innerHTML == "kg`")
+                    var kg = document.getElementById("kg").value;
+                else
+                    var kg = document.getElementById("kg").value * 0.45359237;
+
+
+                var BMI = kg / (m * m);
+                var stmt = "Are you kidding me? Start Typing...";
+                if (BMI < 15)
+                    var stmt = "You are very severely underweight! <br> Seriously gotta check out what mommy's cooking today.";
+                else if (BMI >= 15 && BMI <= 16)
+                    var stmt = "You are severely underweight! <br> Definitely gotta check out what mommy's cooking today.";
+                else if (BMI > 16 && BMI <= 18.5)
+                    var stmt = "You are underweight! <br> Check out what mommy's cooking today.";
+                else if (BMI > 18.5 && BMI <= 25)
+                    var stmt = "Chill! you are normal weight! <br> Very good keep it up.";
+                else if (BMI > 25 && BMI <= 30)
+                    var stmt = "You are overweight! <br> No biggy next time you wanna go up just choose stairs over elevators.";
+                else if (BMI > 30 && BMI <= 35)
+                    var stmt = "You are moderately obese! <br> Gotta start working out I guess.";
+                else if (BMI > 35 && BMI <= 40)
+                    var stmt = "You are severely obese! <br> Do your workouts and avoid overeating.";
+                else if (BMI === Infinity)
+                    var stmt = "You're Enjoying this aren't you?<br><br>To Infinity & Beyond!";
+                else if (BMI > 40)
+                    var stmt = "You are very severely obese! <br> Seriously workout! and stop overeating!";
+
+                document.getElementById("p").innerHTML = BMI + "!<br><br>" + stmt;
+            }
+            </script>
+            <style>
+            h2 {
+                text-align: center;
+                font-size: 1.5em;
+            }
+            
+            h3 {
+                text-align: center;
+                font-size: 1.5em;
+            }
+            
+            h2 input {
+                width: 50%;
+                height: 25px;
+                text-align: center;
+                font-size: 50%;
+                border: 1px solid #000000;
+                outline: none;
+                border-left: 1px solid rgb(48, 148, 255);
+                border-right: 1px solid rgb(48, 148, 255);
+                border-bottom: 3px solid rgb(48, 148, 255);
+            }
+            
+            #height,
+            #weight {
+                display: inline;
+                border-bottom: 3px solid red;
+                cursor: pointer;
+                padding-left: 15px;
+            }
+            </style>
+            <h2>
+		       <label class="item item-input">
+				  <span class="input-label">Weight</span>
+				  <input id="kg" type="number" onkeyup="BMI()">
+		  		</label>
+		  		<br><div id="weight" onclick="this.innerHTML=(this.innerHTML=='kg`')?'lb`':'kg`';BMI()">kg`</div><br><br>
+		  
+				<label class="item item-input">
+					 <span class="input-label">Height</span>
+					 <input id="m" type="number" onkeyup="BMI()">
+				</label>
+				<br><div id="height" onclick="this.innerHTML=(this.innerHTML=='m `')?'cm`':((this.innerHTML=='cm`')?'ft`':'m `');BMI()">m `</div><br>
+       		 </h2>
+            <h3><br>Your BMI is <span id="p">...</span></h3>
+        </ion-content>
+    </ion-pane>
+</body>
+
+</html>
